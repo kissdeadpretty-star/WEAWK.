@@ -201,6 +201,67 @@ section .wrap{position:relative;z-index:1}
  .hero .hero-meta{margin-top:20px;gap:24px}
 }
 
+
+/* WEAWK rotating avatar orbit */
+.scroll.avatar-orbit{
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(229,9,45,.72);
+  background:rgba(5,5,7,.5);
+  box-shadow:0 0 35px rgba(229,9,45,.13),inset 0 0 24px rgba(229,9,45,.08);
+  animation:avatarOrbitPulse 3.6s ease-in-out infinite !important;
+  overflow:visible;
+}
+.scroll.avatar-orbit img{
+  display:block;
+  width:74%;
+  height:74%;
+  object-fit:cover;
+  object-position:52% 34%;
+  border-radius:50%;
+  border:2px solid rgba(229,9,45,.85);
+  box-shadow:0 0 25px rgba(229,9,45,.32);
+  animation:avatarSpin 18s linear infinite;
+  will-change:transform;
+}
+.scroll.avatar-orbit::after{
+  content:"";
+  position:absolute;
+  width:10px;height:10px;
+  right:8%;top:13%;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 0 5px rgba(229,9,45,.24),0 0 18px #e5092d;
+}
+@keyframes avatarSpin{to{transform:rotate(360deg)}}
+@keyframes avatarOrbitPulse{0%,100%{box-shadow:0 0 25px rgba(229,9,45,.09),inset 0 0 20px rgba(229,9,45,.04)}50%{box-shadow:0 0 48px rgba(229,9,45,.22),inset 0 0 28px rgba(229,9,45,.1)}}
+@media(max-width:760px){.scroll.avatar-orbit{width:112px;height:112px}}
+@media(prefers-reduced-motion:reduce){.scroll.avatar-orbit,.scroll.avatar-orbit img{animation:none!important}}
+
+
+.price-note{
+  margin:22px 0 0;
+  padding:15px 18px;
+  border-left:2px solid var(--accent);
+  background:linear-gradient(90deg,rgba(229,9,45,.09),transparent 72%);
+  color:#bdb7b7;
+  font-size:13px;
+  line-height:1.55;
+  letter-spacing:.01em;
+}
+.price{font-weight:800;font-size:13px;letter-spacing:.06em}
+
+
+.price-heading{display:flex;align-items:center;gap:22px}
+.price-avatar{
+  width:clamp(74px,10vw,116px);height:clamp(74px,10vw,116px);
+  object-fit:cover;object-position:center;border-radius:50%;
+  border:2px solid var(--accent);
+  box-shadow:0 0 0 7px rgba(229,9,45,.08),0 0 28px rgba(229,9,45,.22);
+  transform:rotate(-7deg);
+}
+@media(max-width:760px){.price-heading{gap:15px}.price-avatar{width:76px;height:76px;flex:none}}
+
 </style>
 </head>
 <body>
@@ -223,7 +284,7 @@ section .wrap{position:relative;z-index:1}
 <main id="home">
 <div class="wrap hero">
   <div class="eyebrow" data-i="heroEyebrow">Независимый визуальный дизайнер · 2026</div>
-  <div><div class="scroll">Visuals with attitude ✳</div><h1>DESIGN<br>WITH <span>ATTITUDE.</span></h1></div>
+  <div><div class="scroll avatar-orbit" aria-label="WEAWK avatar"><img src="weawk-avatar.png" alt="WEAWK avatar"></div><h1>DESIGN<br>WITH <span>ATTITUDE.</span></h1></div>
   <div class="hero-bottom"><p class="intro" data-i="heroIntro">Создаю визуалы, которые цепляют с первого взгляда. Графический дизайн, цифровая эстетика и выразительная визуальная подача.</p><div class="hero-meta"><div>01 — 06<br><span data-i="metaOne">Визуальная система</span></div><div>EST. 2021<br><span data-i="metaTwo">Независимая практика</span></div></div></div>
 </div>
 <div class="ticker"><span>WEAWK® — GRAPHIC DESIGN — VISUAL IDENTITY — DIGITAL ART — WEAWK® — GRAPHIC DESIGN — VISUAL IDENTITY — DIGITAL ART — </span></div>
@@ -233,13 +294,14 @@ section .wrap{position:relative;z-index:1}
   <div class="work-empty"><div><div class="empty-mark">W—</div><strong data-i="emptyTitle">WORK IN PROGRESS — ПОРТФОЛИО СКОРО</strong><p data-i="emptyText">Раздел уже подготовлен. Позже добавим твои работы, обложки проектов и подробные просмотры.</p></div></div>
 </div></section>
 <section id="services"><div class="wrap reveal">
-  <div class="section-head"><div><div class="kicker">02 / WHAT I DO</div><h2 data-i="servicesTitle">УСЛУГИ<br>& ПРАЙС.</h2></div><p class="section-note" data-i="servicesNote">Выбери направление — детали, сроки и стоимость обсудим лично в Telegram.</p></div>
+  <div class="section-head"><div><div class="price-heading"><div><div class="kicker">02 / WHAT I DO</div><h2 data-i="servicesTitle">УСЛУГИ<br>& ПРАЙС.</h2></div><img class="price-avatar" src="weawk-avatar.png" alt="WEAWK — автор дизайна"></div></div><p class="section-note" data-i="servicesNote">Выбери направление — детали, сроки и стоимость обсудим лично в Telegram.</p></div>
   <div class="services">
-    <article class="service"><div><h3 data-i="s1">Аватар / обложка</h3><p data-i="sd1">Персональный визуал для профиля или канала</p></div><div class="price" data-i="ask">ПО ЗАПРОСУ</div></article>
-    <article class="service"><div><h3 data-i="s2">Баннер / шапка</h3><p data-i="sd2">Графика для социальных сетей и проектов</p></div><div class="price" data-i="ask">ПО ЗАПРОСУ</div></article>
-    <article class="service"><div><h3 data-i="s3">Логотип</h3><p data-i="sd3">Знак, типографика и базовая айдентика</p></div><div class="price" data-i="ask">ПО ЗАПРОСУ</div></article>
-    <article class="service"><div><h3 data-i="s4">Превью / постер</h3><p data-i="sd4">Промо-графика и визуалы для публикаций</p></div><div class="price" data-i="ask">ПО ЗАПРОСУ</div></article>
+    <article class="service"><div><h3 data-i="s1">Аватар / обложка</h3><p data-i="sd1">Персональный визуал для профиля или канала</p></div><div class="price" data-i="priceAvatar">ОТ 600 ₽</div></article>
+    <article class="service"><div><h3 data-i="s2">Баннер / шапка</h3><p data-i="sd2">Графика для социальных сетей и проектов</p></div><div class="price" data-i="priceBanner">ОТ 650 ₽</div></article>
+    <article class="service"><div><h3 data-i="s3">Логотип</h3><p data-i="sd3">Знак, типографика и базовая айдентика</p></div><div class="price" data-i="priceLogo">ОТ 700 ₽</div></article>
+    <article class="service"><div><h3 data-i="s4">Превью / постер</h3><p data-i="sd4">Промо-графика и визуалы для публикаций</p></div><div class="price" data-i="pricePoster">ОТ 800 ₽</div></article>
   </div>
+  <p class="price-note" data-i="priceNote">Работы, не указанные в прайсе, обсуждаются лично.</p>
 </div></section>
 <section id="motion"><div class="wrap reveal">
   <div class="section-head"><div><div class="kicker">03 / MOTION STUDY</div><h2 data-i="motionTitle">ДВИЖЕНИЕ<br>И ХАРАКТЕР.</h2></div><p class="section-note" data-i="motionNote">Небольшой фирменный motion-элемент. Позже сюда можно добавить реальные анимационные проекты.</p></div>
@@ -254,8 +316,8 @@ section .wrap{position:relative;z-index:1}
 <footer class="wrap"><span>© WEAWK® 2026</span><span data-i="footerMid">INDEPENDENT VISUAL DESIGNER</span><a href="#home">BACK TO TOP ↑</a></footer>
 <script>
 const copy={
-ru:{navWork:"Работы",navServices:"Услуги",navMotion:"Анимации",navReviews:"Отзывы",navContact:"Контакт",heroEyebrow:"Независимый визуальный дизайнер · 2026",heroIntro:"Создаю визуалы, которые цепляют с первого взгляда. Графический дизайн, цифровая эстетика и выразительная визуальная подача.",metaOne:"Визуальная система",metaTwo:"Независимая практика",workTitle:"ИЗБРАННЫЕ<br>РАБОТЫ.",workNote:"Витрина визуального мира WEAWK. Кейсы и авторские эксперименты появятся здесь позже.",emptyTitle:"WORK IN PROGRESS — ПОРТФОЛИО СКОРО",emptyText:"Раздел уже подготовлен. Позже добавим твои работы, обложки проектов и подробные просмотры.",servicesTitle:"УСЛУГИ<br>& ПРАЙС.",servicesNote:"Выбери направление — детали, сроки и стоимость обсудим лично в Telegram.",s1:"Аватар / обложка",sd1:"Персональный визуал для профиля или канала",s2:"Баннер / шапка",sd2:"Графика для социальных сетей и проектов",s3:"Логотип",sd3:"Знак, типографика и базовая айдентика",s4:"Превью / постер",sd4:"Промо-графика и визуалы для публикаций",ask:"ПО ЗАПРОСУ",motionTitle:"ДВИЖЕНИЕ<br>И ХАРАКТЕР.",motionNote:"Небольшой фирменный motion-элемент. Позже сюда можно добавить реальные анимационные проекты.",reviewsTitle:"ОТЗЫВЫ<br>КЛИЕНТОВ.",reviewsNote:"Добавим сюда настоящие отзывы и обратную связь после согласования.",rPlaceholder:"Здесь появится реальный отзыв клиента после согласования публикации.",contactTitle:"ЕСТЬ ИДЕЯ?<br>СОЗДАДИМ.",contactText:"Открыта к интересным проектам и сотрудничеству. Напиши мне, чтобы обсудить свою идею.",contactButton:"НАПИСАТЬ В TELEGRAM ↗",footerMid:"INDEPENDENT VISUAL DESIGNER"},
-en:{navWork:"Work",navServices:"Services",navMotion:"Motion",navReviews:"Reviews",navContact:"Contact",heroEyebrow:"Independent visual designer · 2026",heroIntro:"I create visuals that make an impression at first glance. Graphic design, digital aesthetics and expressive visual direction.",metaOne:"Visual direction",metaTwo:"Independent practice",workTitle:"SELECTED<br>WORK.",workNote:"Projects, visual experiments and selected design case studies will live here.",emptyTitle:"PORTFOLIO COMING SOON",emptyText:"The section is ready. Your projects, covers and detailed case views can be added later.",servicesTitle:"SERVICES<br>& PRICING.",servicesNote:"Each service will have its own price. For now, clean placeholders keep the layout ready.",s1:"Avatar / cover",sd1:"Custom visual for a profile or channel",s2:"Banner / header",sd2:"Graphics for social platforms and projects",s3:"Logo",sd3:"Symbol, typography and core identity",s4:"Preview / poster",sd4:"Promotional graphics and publication visuals",ask:"ON REQUEST",motionTitle:"MOTION<br>& ATTITUDE.",motionNote:"A small branded motion element. Real animation projects can be added here later.",reviewsTitle:"CLIENT<br>REVIEWS.",reviewsNote:"Real testimonials and client feedback can be added after approval.",rPlaceholder:"Client testimonial placeholder — add the approved text here.",contactTitle:"HAVE AN IDEA?<br>LET'S CREATE.",contactText:"Open to interesting projects and collaborations. Send a message to discuss your idea.",contactButton:"MESSAGE ON TELEGRAM ↗",footerMid:"INDEPENDENT VISUAL DESIGNER"}
+ru:{navWork:"Работы",navServices:"Услуги",navMotion:"Анимации",navReviews:"Отзывы",navContact:"Контакт",heroEyebrow:"Независимый визуальный дизайнер · 2026",heroIntro:"Создаю визуалы, которые цепляют с первого взгляда. Графический дизайн, цифровая эстетика и выразительная визуальная подача.",metaOne:"Визуальная система",metaTwo:"Независимая практика",workTitle:"ИЗБРАННЫЕ<br>РАБОТЫ.",workNote:"Витрина визуального мира WEAWK. Кейсы и авторские эксперименты появятся здесь позже.",emptyTitle:"WORK IN PROGRESS — ПОРТФОЛИО СКОРО",emptyText:"Раздел уже подготовлен. Позже добавим твои работы, обложки проектов и подробные просмотры.",servicesTitle:"УСЛУГИ<br>& ПРАЙС.",servicesNote:"Выбери направление — детали, сроки и стоимость обсудим лично в Telegram.",s1:"Аватар / обложка",sd1:"Персональный визуал для профиля или канала",s2:"Баннер / шапка",sd2:"Графика для социальных сетей и проектов",s3:"Логотип",sd3:"Знак, типографика и базовая айдентика",s4:"Превью / постер",sd4:"Промо-графика и визуалы для публикаций",priceAvatar:"ОТ 600 ₽",priceBanner:"ОТ 650 ₽",priceLogo:"ОТ 700 ₽",pricePoster:"ОТ 800 ₽",priceNote:"Работы, не указанные в прайсе, обсуждаются лично.",motionTitle:"ДВИЖЕНИЕ<br>И ХАРАКТЕР.",motionNote:"Небольшой фирменный motion-элемент. Позже сюда можно добавить реальные анимационные проекты.",reviewsTitle:"ОТЗЫВЫ<br>КЛИЕНТОВ.",reviewsNote:"Добавим сюда настоящие отзывы и обратную связь после согласования.",rPlaceholder:"Здесь появится реальный отзыв клиента после согласования публикации.",contactTitle:"ЕСТЬ ИДЕЯ?<br>СОЗДАДИМ.",contactText:"Открыта к интересным проектам и сотрудничеству. Напиши мне, чтобы обсудить свою идею.",contactButton:"НАПИСАТЬ В TELEGRAM ↗",footerMid:"INDEPENDENT VISUAL DESIGNER"},
+en:{navWork:"Work",navServices:"Services",navMotion:"Motion",navReviews:"Reviews",navContact:"Contact",heroEyebrow:"Independent visual designer · 2026",heroIntro:"I create visuals that make an impression at first glance. Graphic design, digital aesthetics and expressive visual direction.",metaOne:"Visual direction",metaTwo:"Independent practice",workTitle:"SELECTED<br>WORK.",workNote:"Projects, visual experiments and selected design case studies will live here.",emptyTitle:"PORTFOLIO COMING SOON",emptyText:"The section is ready. Your projects, covers and detailed case views can be added later.",servicesTitle:"SERVICES<br>& PRICING.",servicesNote:"Each service will have its own price. For now, clean placeholders keep the layout ready.",s1:"Avatar / cover",sd1:"Custom visual for a profile or channel",s2:"Banner / header",sd2:"Graphics for social platforms and projects",s3:"Logo",sd3:"Symbol, typography and core identity",s4:"Preview / poster",sd4:"Promotional graphics and publication visuals",priceAvatar:"FROM 600 ₽",priceBanner:"FROM 650 ₽",priceLogo:"FROM 700 ₽",pricePoster:"FROM 800 ₽",priceNote:"Projects not listed in the price list are discussed individually.",motionTitle:"MOTION<br>& ATTITUDE.",motionNote:"A small branded motion element. Real animation projects can be added here later.",reviewsTitle:"CLIENT<br>REVIEWS.",reviewsNote:"Real testimonials and client feedback can be added after approval.",rPlaceholder:"Client testimonial placeholder — add the approved text here.",contactTitle:"HAVE AN IDEA?<br>LET'S CREATE.",contactText:"Open to interesting projects and collaborations. Send a message to discuss your idea.",contactButton:"MESSAGE ON TELEGRAM ↗",footerMid:"INDEPENDENT VISUAL DESIGNER"}
 };
 function setLang(lang){document.documentElement.lang=lang;document.querySelectorAll("[data-i]").forEach(el=>{const key=el.dataset.i;if(copy[lang][key])el.innerHTML=copy[lang][key]});document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));}
 document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>setLang(b.dataset.lang)));
