@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WEAWK® — Admin</title>
+<style>
+:root{--bg:#080808;--panel:#111;--line:#302126;--red:#e5092d;--text:#f5f2f2;--muted:#999}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% 0,rgba(229,9,45,.13),transparent 30%),var(--bg);color:var(--text);font:14px/1.5 Arial,sans-serif}
+.wrap{width:min(1120px,calc(100% - 32px));margin:auto}.top{padding:28px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px}.logo{font-weight:900;font-size:25px;letter-spacing:-1.5px}.logo span{color:var(--red)}.tag{color:#aaa;font-size:11px;letter-spacing:.18em}
+h1{font-size:clamp(34px,6vw,62px);line-height:.95;letter-spacing:-.07em;margin:38px 0 10px}h1 span{color:var(--red)}.sub{color:var(--muted);margin:0 0 28px}
+.panel{background:rgba(17,17,17,.94);border:1px solid var(--line);padding:22px;margin:18px 0;border-radius:4px}.panel h2{font-size:17px;margin:0 0 17px;letter-spacing:.02em}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:.1em}input,textarea,select{width:100%;background:#080808;color:#fff;border:1px solid #3b3033;padding:12px;border-radius:3px;font:inherit}textarea{min-height:90px;resize:vertical}input:focus,textarea:focus{outline:1px solid var(--red);border-color:var(--red)}
+button,.btn{background:var(--red);border:1px solid var(--red);color:white;padding:11px 16px;font-weight:700;cursor:pointer;border-radius:3px;font:inherit}button.secondary{background:#1a1a1a;border-color:#4a3a3d}button.danger{background:#2a1015;border-color:#6a1b2b;color:#ffb7c2}button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.status{color:#aaa;font-size:12px;margin-top:10px}.status.ok{color:#8ee0a1}.status.err{color:#ff8798}.hidden{display:none!important}.item{display:flex;justify-content:space-between;align-items:center;gap:14px;border-top:1px solid #302126;padding:12px 0}.item strong{display:block}.item small{color:#999}.hint{color:#999;font-size:12px}.pill{color:#ff8ca0;border:1px solid #652031;padding:3px 8px;font-size:10px;letter-spacing:.1em}
+#workspace{display:none}.price-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}.file-preview{max-width:130px;max-height:90px;object-fit:cover;border:1px solid #4a3037}
+footer{padding:30px 0 50px;color:#777;font-size:11px}
+@media(max-width:700px){.grid,.price-row{grid-template-columns:1fr}.panel{padding:16px}.top{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body><div class="wrap">
+<header class="top"><div><div class="logo">WEAWK<span>®</span></div><div class="tag">CONTENT MANAGEMENT / PRIVATE WORKSPACE</div></div><a class="tag" href="./" style="color:#eee">← ОТКРЫТЬ САЙТ</a></header>
+<h1>ADMIN<span>.</span><br>CONTROL ROOM.</h1><p class="sub">Управляй портфолио, ценами, отзывами и визуалом сайта из одного места.</p>
+
+<section class="panel" id="connectPanel">
+<h2>01 / ПОДКЛЮЧЕНИЕ К GITHUB</h2>
+<p class="hint">Создай Fine-grained personal access token с доступом только к репозиторию WEAWK и разрешением Contents: Read and write. Токен используется только в этой вкладке и не сохраняется.</p>
+<div class="field"><label>GitHub token</label><input id="token" type="password" autocomplete="off" placeholder="github_pat_..."></div>
+<div class="row"><button id="connectBtn">Подключить GitHub</button><span class="status" id="connectStatus"></span></div>
+<p class="hint">Репозиторий: kissdeadpretty-star / WEAWK · ветка main</p>
+</section>
+
+<div id="workspace">
+<section class="panel"><div class="row" style="justify-content:space-between"><h2>02 / ПУБЛИКАЦИЯ</h2><span class="pill">GITHUB PAGES</span></div>
+<p class="hint">Кнопка публикации записывает настройки сайта в site-data.json. Загруженные изображения отправляются в репозиторий отдельными коммитами.</p>
+<div class="row"><button id="publishBtn">Сохранить и опубликовать изменения</button><span class="status" id="publishStatus"></span></div></section>
+
+<section class="panel"><h2>03 / ПРАЙС-ЛИСТ</h2><div id="pricesEditor"></div>
+<div class="field"><label>Примечание под прайсом (RU)</label><input id="priceNoteRu"></div>
+<div class="field"><label>Price note (EN)</label><input id="priceNoteEn"></div></section>
+
+<section class="panel"><h2>04 / ПОРТФОЛИО — ДОБАВИТЬ РАБОТУ</h2>
+<div class="grid"><div class="field"><label>Название работы</label><input id="workTitle" placeholder="Например, PUBG — Red Eclipse"></div><div class="field"><label>Категория</label><input id="workCategory" placeholder="PUBG / GRAPHIC / IDENTITY"></div></div>
+<div class="field"><label>Описание</label><textarea id="workDescription" placeholder="Коротко о проекте"></textarea></div>
+<div class="field"><label>Изображение работы</label><input id="workImage" type="file" accept="image/*"><span class="hint">Рекомендуется JPG/PNG/WebP до 10 МБ.</span></div>
+<button id="addWorkBtn">Загрузить работу</button><div id="worksList"></div></section>
+
+<section class="panel"><h2>05 / ОТЗЫВЫ</h2>
+<div class="grid"><div class="field"><label>Имя / ник клиента</label><input id="reviewAuthor" placeholder="CLIENT / nickname"></div><div class="field"><label>Оценка</label><select id="reviewStars"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></div></div>
+<div class="field"><label>Текст отзыва</label><textarea id="reviewText" placeholder="Только реальный отзыв с разрешением на публикацию"></textarea></div>
+<button id="addReviewBtn">Добавить отзыв</button><div id="reviewsList"></div></section>
+
+<section class="panel"><h2>06 / АВАТАР И БАННЕР</h2>
+<div class="grid"><div class="field"><label>Новая аватарка</label><input id="avatarFile" type="file" accept="image/*"><span class="hint">Будет сохранена как weawk-avatar.png</span></div><div class="field"><label>Новый баннер</label><input id="bannerFile" type="file" accept="image/*"><span class="hint">Будет сохранён как weawk-banner.png</span></div></div>
+<div class="row"><button class="secondary" id="uploadAvatarBtn">Загрузить аватарку</button><button class="secondary" id="uploadBannerBtn">Загрузить баннер</button></div><div class="status" id="mediaStatus"></div></section>
+
+<section class="panel"><h2>07 / КОНТАКТЫ</h2><div class="field"><label>Telegram username без @</label><input id="telegram"></div></section>
+</div>
+<footer>WEAWK® ADMIN · Не передавай GitHub token другим людям. После работы нажми «Отключиться» или просто закрой вкладку.</footer>
+</div>
+<script>
+const OWNER="kissdeadpretty-star",REPO="WEAWK.",BRANCH="main",API="https://api.github.com";
+let token="",data=null;
+const $=id=>document.getElementById(id);
+const defaultData={version:1,prices:[
+{id:"avatar",titleRu:"Аватарка",titleEn:"Avatar",descriptionRu:"Персональный визуал для профиля или канала",descriptionEn:"Custom visual for a profile or channel",price:"от 600 ₽"},
+{id:"banner",titleRu:"Баннер",titleEn:"Banner",descriptionRu:"Графика для социальных сетей и проектов",descriptionEn:"Graphics for social platforms and projects",price:"от 650 ₽"},
+{id:"logo",titleRu:"Логотип",titleEn:"Logo",descriptionRu:"Знак, типографика и базовая айдентика",descriptionEn:"Symbol, typography and core identity",price:"от 700 ₽"},
+{id:"poster",titleRu:"Превью и постеры",titleEn:"Previews & posters",descriptionRu:"Промо-графика и визуалы для публикаций",descriptionEn:"Promotional graphics and publication visuals",price:"от 800 ₽"}],
+works:[],reviews:[],hero:{banner:"weawk-banner.png",avatar:"weawk-avatar.png"},telegram:"Diilyeva",
+priceNoteRu:"Работы, не указанные в прайсе, обсуждаются лично.",priceNoteEn:"Projects not listed in the price list are discussed individually."};
+function status(id,msg,type=""){const el=$(id);el.textContent=msg;el.className="status "+type;}
+function headers(){return{"Authorization":"Bearer "+token,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};}
+async function api(path,options={}){const res=await fetch(API+path,{...options,headers:{...headers(),...(options.headers||{})}});let body={};try{body=await res.json()}catch{}if(!res.ok)throw new Error(res.status+" "+(body.message||"GitHub API error"));return body;}
+async function getFile(path){try{return await api(`/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`)}catch(e){if(String(e.message).includes("404"))return null;throw e;}}
+async function putText(path,text,message){const old=await getFile(path);const payload={message,content:btoa(unescape(encodeURIComponent(text))),branch:BRANCH};if(old?.sha)payload.sha=old.sha;return api(`/repos/${OWNER}/${REPO}/contents/${path}`,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});}
+function fileBase64(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result).split(",")[1]);r.onerror=reject;r.readAsDataURL(file);});}
+async function putImage(path,file){if(!file)throw new Error("Сначала выбери изображение.");if(file.size>10*1024*1024)throw new Error("Файл больше 10 МБ. Уменьши изображение и попробуй снова.");const old=await getFile(path);const payload={message:"Update "+path,content:await fileBase64(file),branch:BRANCH};if(old?.sha)payload.sha=old.sha;return api(`/repos/${OWNER}/${REPO}/contents/${path}`,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});}
+async function loadData(){const file=await getFile("site-data.json");if(!file)return structuredClone(defaultData);const raw=decodeURIComponent(escape(atob(file.content.replace(/\n/g,""))));return {...structuredClone(defaultData),...JSON.parse(raw),hero:{...defaultData.hero,...(JSON.parse(raw).hero||{})}};}
+function drawPrices(){const root=$("pricesEditor");root.replaceChildren();data.prices.forEach((p,i)=>{const row=document.createElement("div");row.className="price-row";row.innerHTML=`<div class="field"><label>Название RU</label><input data-p="${i}" data-k="titleRu"></div><div class="field"><label>Название EN</label><input data-p="${i}" data-k="titleEn"></div><div class="field"><label>Цена</label><input data-p="${i}" data-k="price"></div>`;root.append(row);row.querySelectorAll("input").forEach(input=>input.value=p[input.dataset.k]||"");});$("priceNoteRu").value=data.priceNoteRu||"";$("priceNoteEn").value=data.priceNoteEn||"";}
+function drawLists(){const w=$("worksList");w.replaceChildren();data.works.forEach((x,i)=>{const row=document.createElement("div");row.className="item";const info=document.createElement("div");info.innerHTML=`<strong></strong><small></small>`;info.querySelector("strong").textContent=x.title;info.querySelector("small").textContent=x.category+" · "+x.image;const del=document.createElement("button");del.className="danger";del.textContent="Удалить";del.onclick=()=>{data.works.splice(i,1);drawLists();};row.append(info,del);w.append(row);});
+const r=$("reviewsList");r.replaceChildren();data.reviews.forEach((x,i)=>{const row=document.createElement("div");row.className="item";const info=document.createElement("div");info.innerHTML=`<strong></strong><small></small>`;info.querySelector("strong").textContent=x.author;info.querySelector("small").textContent="★".repeat(x.stars)+" · "+x.text;const del=document.createElement("button");del.className="danger";del.textContent="Удалить";del.onclick=()=>{data.reviews.splice(i,1);drawLists();};row.append(info,del);r.append(row);});}
+$("connectBtn").onclick=async()=>{token=$("token").value.trim();if(!token){status("connectStatus","Вставь GitHub token.","err");return;}try{await api(`/repos/${OWNER}/${REPO}`);data=await loadData();$("workspace").style.display="block";$("connectPanel").querySelector("input").value="";$("connectPanel").querySelector("input").disabled=true;$("connectBtn").disabled=true;status("connectStatus","GitHub подключён. Данные загружены.","ok");drawPrices();drawLists();$("telegram").value=data.telegram||"Diilyeva";}catch(e){token="";status("connectStatus",e.message,"err");}};
+$("publishBtn").onclick=async()=>{try{document.querySelectorAll("[data-p]").forEach(input=>data.prices[Number(input.dataset.p)][input.dataset.k]=input.value.trim());data.priceNoteRu=$("priceNoteRu").value;data.priceNoteEn=$("priceNoteEn").value;data.telegram=$("telegram").value.trim().replace(/^@/,"");await putText("site-data.json",JSON.stringify(data,null,2),"Update WEAWK site content");status("publishStatus","Опубликовано! Подожди 1–3 минуты и обнови сайт.","ok");}catch(e){status("publishStatus",e.message,"err");}};
+$("addWorkBtn").onclick=async()=>{try{const title=$("workTitle").value.trim(),file=$("workImage").files[0];if(!title||!file)throw new Error("Добавь название и изображение.");const safe=(file.name.replace(/[^a-zA-Z0-9._-]/g,"-").replace(/-+/g,"-")||"work-image.png");const path="uploads/"+Date.now()+"-"+safe;await putImage(path,file);data.works.push({id:String(Date.now()),title,category:$("workCategory").value.trim()||"GRAPHIC",description:$("workDescription").value.trim(),image:path});drawLists();$("workTitle").value="";$("workCategory").value="";$("workDescription").value="";$("workImage").value="";status("publishStatus","Изображение загружено. Нажми «Сохранить и опубликовать изменения», чтобы показать работу на сайте.","ok");}catch(e){status("publishStatus",e.message,"err");}};
+$("addReviewBtn").onclick=()=>{const author=$("reviewAuthor").value.trim(),text=$("reviewText").value.trim();if(!author||!text){status("publishStatus","Заполни имя клиента и текст отзыва.","err");return;}data.reviews.push({id:String(Date.now()),author,text,stars:Number($("reviewStars").value)});$("reviewAuthor").value="";$("reviewText").value="";drawLists();status("publishStatus","Отзыв добавлен в черновик. Нажми публикацию.","ok");};
+async function uploadFixed(inputId,path,label){try{await putImage(path,$(inputId).files[0]);data.hero=data.hero||{};data.hero[label]=path;status("mediaStatus","Файл загружен. Нажми «Сохранить и опубликовать изменения», чтобы применить его на сайте.","ok");}catch(e){status("mediaStatus",e.message,"err");}}
+$("uploadAvatarBtn").onclick=()=>uploadFixed("avatarFile","weawk-avatar.png","avatar");
+$("uploadBannerBtn").onclick=()=>uploadFixed("bannerFile","weawk-banner.png","banner");
+</script></body></html>

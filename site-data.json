@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "prices": [
+    {
+      "id": "avatar",
+      "titleRu": "Аватарка",
+      "titleEn": "Avatar",
+      "descriptionRu": "Персональный визуал для профиля или канала",
+      "descriptionEn": "Custom visual for a profile or channel",
+      "price": "от 600 ₽"
+    },
+    {
+      "id": "banner",
+      "titleRu": "Баннер",
+      "titleEn": "Banner",
+      "descriptionRu": "Графика для социальных сетей и проектов",
+      "descriptionEn": "Graphics for social platforms and projects",
+      "price": "от 650 ₽"
+    },
+    {
+      "id": "logo",
+      "titleRu": "Логотип",
+      "titleEn": "Logo",
+      "descriptionRu": "Знак, типографика и базовая айдентика",
+      "descriptionEn": "Symbol, typography and core identity",
+      "price": "от 700 ₽"
+    },
+    {
+      "id": "poster",
+      "titleRu": "Превью и постеры",
+      "titleEn": "Previews & posters",
+      "descriptionRu": "Промо-графика и визуалы для публикаций",
+      "descriptionEn": "Promotional graphics and publication visuals",
+      "price": "от 800 ₽"
+    }
+  ],
+  "works": [],
+  "reviews": [],
+  "hero": {
+    "banner": "weawk-banner.png",
+    "avatar": "weawk-avatar.png"
+  },
+  "telegram": "Diilyeva",
+  "priceNoteRu": "Работы, не указанные в прайсе, обсуждаются лично.",
+  "priceNoteEn": "Projects not listed in the price list are discussed individually."
+}
